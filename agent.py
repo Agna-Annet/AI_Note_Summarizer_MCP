@@ -43,10 +43,14 @@ async def main():
 
             print("Connected to MCP Server")
 
+            print("\nSelect from available notes to summarize: \n1. ai.md \n2. ml.md \n3. neural_networks.d \n4. python.md \n")
+            filename=input("Enter note name (exactly as given):")
+            print()
+
             result= await session.call_tool( #calls the tool in mcp_server with args req
                 "read_markdown",
                 {
-                    "filepath":"notes.md"
+                    "filepath":f"md_files/{filename}"
                 }
             )
 
