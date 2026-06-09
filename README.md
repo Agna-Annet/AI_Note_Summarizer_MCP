@@ -1,0 +1,1 @@
+# Note_Summarizer_MCP

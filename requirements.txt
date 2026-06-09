@@ -1,0 +1,17 @@
+#Langchain core
+langchain
+langchain-core
+
+#Gemini
+langchain-google-genai
+google-generativeai
+
+#Environment Variable Management
+python-dotenv
+
+#ML Utilities
+numpy
+scikit-learn
+
+#MCP
+mcp
