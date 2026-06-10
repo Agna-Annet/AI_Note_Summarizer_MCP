@@ -41,42 +41,75 @@ async def main():
             
             await session.initialize() #performs mcp handshake(ie. communication initialisation)
 
-            print("Connected to MCP Server")
+            print("Connected to MCP Server")            
 
-            print("\nSelect from available notes to summarize: \n1. ai.md \n2. ml.md \n3. neural_networks.d \n4. python.md \n")
-            filename=input("Enter note name (exactly as given):")
-            print()
+            while True:
+                print("\nSelect action:\n1. Summarize\n2. Word Count\n3. Extract Headings\n4. Exit\n")
+                ch=int(input("Enter your choice: "))
 
-            result= await session.call_tool( #calls the tool in mcp_server with args req
-                "read_markdown",
-                {
-                    "filepath":f"md_files/{filename}"
-                }
-            )
+                if ch not in [1,2,3]:
+                    break
 
-            markdown_content=result.content[0].text #read_markdown returns plain string but MCP doesnt return plain strings it wraps it in a structured format. result=CallToolResult( content=[ TextContent(text="Ai isa a....")])
+                print("\nSelect from available notes: \n1. ai.md \n2. ml.md \n3. neural_networks.d \n4. python.md \n")
+                filename=input("Enter note name (exactly as given):")
+                print()
 
-            print("Markdown received")
+                if ch==1:
+                    result= await session.call_tool( #calls the tool in mcp_server with args req
+                        "read_markdown",
+                        {
+                            "filepath":f"md_files/{filename}"
+                        }
+                    )
 
-            prompt= ChatPromptTemplate.from_template(
-                """
-                Summarize the following markdown content.
+                    markdown_content=result.content[0].text #read_markdown returns plain string but MCP doesnt return plain strings it wraps it in a structured format. result=CallToolResult( content=[ TextContent(text="Ai isa a....")])
 
-                Markdown:
-                {content}
-                """
-            )
 
-            chain = prompt |  llm
+            
+                    #print("Markdown received")
 
-            response=chain.invoke(
-                {
-                    "content":markdown_content
-                }
-            )
+                    prompt= ChatPromptTemplate.from_template(
+                    """
+                        Summarize the following markdown content.
 
-            print("\nSUMMARY\n")
-            print(response.content)
+                        Markdown:
+                        {content}
+                    """
+                    )
+
+                    chain = prompt |  llm
+
+                    response=chain.invoke(
+                        {
+                            "content":markdown_content
+                        }
+                    )
+
+                    print("\nSUMMARY\n")
+                    print(response.content)
+                
+                elif ch==2:
+                    result= await session.call_tool( #calls the tool in mcp_server with args req
+                        "count_words",
+                        {
+                            "filepath":f"md_files/{filename}"
+                        }
+                    )
+
+                    print("No of words: ",result.content[0].text)
+
+                elif ch==3:
+                    headlines = await session.call_tool( #calls the tool in mcp_server with args req
+                        "extract_headings",
+                        {
+                            "filepath":f"md_files/{filename}"
+                        }
+                    )
+                    
+                    for i in range(len(headlines.content)):
+                        print(headlines.content[i].text) 
+                
+                
 
 
 if __name__=="__main__": #only direct run (python agent.py) is allowed, import agent not allowed

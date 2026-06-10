@@ -24,6 +24,23 @@ def read_markdown(filepath: str) -> str:
         content=file.read()
     return content
 
+@mcp.tool()
+def count_words(filepath: str)-> int:
+    with open(filepath,'r',encoding="utf-8") as file:
+        word_count=len(file.read().split())
+    return word_count
+
+@mcp.tool()
+def extract_headings(filepath: str)-> list:
+    with open(filepath,'r', encoding='utf-8') as file:
+        headings=[]
+
+        lines=file.read().split("\n")
+        for line in lines:
+            if line.startswith("#"):
+                headings.append(line.strip())
+
+    return headings
 
 #Start MCP server
 if __name__=="__main__":
