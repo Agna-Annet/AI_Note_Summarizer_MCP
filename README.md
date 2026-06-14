@@ -41,12 +41,12 @@ python agent.py
 
 This project tracks a small set of logical versions. Update these entries as you make changes.
 
-- **v0.1.0 — Initial skeleton** (initial commit)
+- **v1.0.0 — Initial skeleton** (initial commit)
 	- Only one markdown file to be accessed.
 	- LLM generates summary based on it.
-- **v0.2.0 — Multiple File Selection**
+- **v2.0.0 — Multiple File Selection**
 	- Added multiple markdown files among which user can choose from.
-- **v0.3.0 — Multiple MCP Servers**
+- **v3.0.0 — Multiple MCP Servers**
 	- Added two more mcp tools - thus doing 3 functions in total - summarize, count words, extract headings.
 
 
